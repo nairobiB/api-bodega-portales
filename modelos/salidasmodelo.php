@@ -1,6 +1,6 @@
 <?php
 
-class entradasModelo extends Modelo
+class salidasModelo extends Modelo
 {
     function __construct()
     {
@@ -10,37 +10,36 @@ class entradasModelo extends Modelo
     {
         $lista = [];
         try {
-            $sql = "select IdCompra, Fechaentrada, IdProv, NomUsr, Estado from entradas";
-            $datos = $this->db->conectar()->query($sql); //capturan los datos que resultan del pdo, llama a la conexion db que esta en 
-            
+            $sql = "select Codsalida, FechaVenta, NomUsr from salida";
+            $datos = $this->db->conectar()->query($sql); //capturan los datos que resultan del pdo, llama a la conexion db que esta en modelo base
             foreach ($datos as $f) {
-                $entrada = [
-                    'IdCompra' => $f['IdCompra'],
-                    'Fechaentrada' => $f['Fechaentrada'],
-                    'IdProv' => $f['IdProv'],
+                $salida = [
+                    'Codsalida' => $f['Codsalida'],
+                    'FechaVenta' => $f['FechaVenta'],
                     'NomUsr' => $f['NomUsr'],
                 ];
-                array_push($lista, $entrada);
+                array_push($lista, $salida);
             }
             return $lista;
         } catch (\Throwable $th) {
             //throw $th;
         }
     }
+
     function listardetalle()
     {
         $lista2 = [];
         try {
-            $sql2 = "select IdCompra, IdProd, Cantidad, Precio from detalleentrada";
+            $sql2 = "select Codsalida, IdProd, Cantidad, PrecSalida from detallesalida";
             $datosdetalle = $this->db->conectar()->query($sql2);
             foreach ($datosdetalle as $f2) {
-                $entradadetalle = [
-                    'IdCompra' => $f2['IdCompra'],
+                $salidadetalle = [
+                    'Codsalida' => $f2['Codsalida'],
                     'IdProd' => $f2['IdProd'],
                     'Cantidad' => $f2['Cantidad'],
-                    'Precio' => $f2['Precio'],
+                    'PrecSalida' => $f2['PrecSalida']
                 ];
-                array_push($lista2, $entradadetalle);
+                array_push($lista2, $salidadetalle);
             }
             return $lista2;
         } catch (\Throwable $th) {
